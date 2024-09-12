@@ -20,6 +20,8 @@ type Config struct {
 	}
 }
 
+var cfg Config
+
 func loadConfig(workingDir string) {
 	configPath := filepath.Join(workingDir, "config.toml")
 
@@ -32,7 +34,6 @@ func loadConfig(workingDir string) {
 		log.Fatal(err)
 	}
 
-	var cfg Config
 	err = toml.Unmarshal(configFile, &cfg)
 	if err != nil {
 		log.Fatal(err)

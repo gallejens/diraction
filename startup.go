@@ -53,10 +53,3 @@ func createShortcut(executablePath, shortcutPath string) error {
 	oleutil.CallMethod(idispatch, "Save")
 	return nil
 }
-
-func removeShortcut() {
-	err := os.Remove(shortcutPath)
-	if err != nil {
-		log.Fatal(err)
-	}
-}
