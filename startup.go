@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -22,7 +21,6 @@ func checkStartupApp(workingFile string) {
 	shortcutPath = filepath.Join(userHomeDir, STARTUP_FOLDER, "diraction.lnk")
 
 	if doesFileExist(shortcutPath) {
-		fmt.Println("This app is already in the startup folder")
 		return
 	}
 

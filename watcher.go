@@ -2,6 +2,8 @@ package main
 
 import (
 	"log"
+	"os"
+	"path/filepath"
 
 	"github.com/fsnotify/fsnotify"
 )
@@ -37,11 +39,38 @@ func startWatcher() {
 
 	// Add a path.
 	for _, cfgFolder := range cfg.Folders {
-		err = watcher.Add(cfgFolder.Path)
-		if err != nil {
-			log.Fatal(err)
-		}
+		registerFolder(watcher, cfgFolder.Path, cfgFolder.IncludeSubfolders)
 	}
 
 	select {}
+}
+
+func registerFolder(watcher *fsnotify.Watcher, path string, includeSubfolders bool) {
+	fileInfo, err := os.Stat(path)
+	if err != nil || os.IsNotExist(err) || !fileInfo.IsDir() {
+		log.Printf("[WARNING] %s is not a directory\n", path)
+		return
+	}
+
+	err = watcher.Add(path)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if !includeSubfolders {
+		return
+	}
+
+	dirContent, err := os.ReadDir(path)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, dirEntry := range dirContent {
+		if !dirEntry.IsDir() {
+			continue
+		}
+
+		registerFolder(watcher, filepath.Join(path, dirEntry.Name()), includeSubfolders)
+	}
 }

@@ -1,8 +1,12 @@
+[settings]
+playSound = true
+
 [[folders]]
 path = '''C:\Users\galle\Documents\DIRACTION_TEST_1'''
+includeSubfolders = true
 
 [[folders]]
 path = '''C:\Users\galle\Documents\DIRACTION_TEST_2'''
 
 [[folders]]
-path = '''D:\DIRACTION_TEST_3'''
+path = '''D:\DIRACTION_TEST_e3'''

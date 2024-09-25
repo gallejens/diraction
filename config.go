@@ -2,7 +2,6 @@ package main
 
 import (
 	_ "embed"
-	"fmt"
 	"io/fs"
 	"log"
 	"os"
@@ -15,8 +14,12 @@ import (
 var defaultConfig []byte
 
 type Config struct {
+	Settings struct {
+		PlaySound bool
+	}
 	Folders []struct {
-		Path string
+		Path              string
+		IncludeSubfolders bool
 	}
 }
 
@@ -39,7 +42,5 @@ func loadConfig(workingDir string) {
 		log.Fatal(err)
 	}
 
-	for _, folder := range cfg.Folders {
-		fmt.Println(folder.Path)
-	}
+	log.Printf("[INFO] Config loaded")
 }

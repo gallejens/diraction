@@ -4,17 +4,28 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 )
+
+var isDevBuild = false
 
 func main() {
 	workingFile, workingDir := getWorkingDir()
 
+	if strings.Contains(workingDir, "go-build") {
+		isDevBuild = true
+		log.Println("[INFO] Running in development mode")
+	}
+
 	loadConfig(workingDir)
 
-	checkStartupApp(workingFile)
+	if !isDevBuild {
+		checkStartupApp(workingFile)
+	}
 
 	go startWatcher()
 
+	// block forever
 	select {}
 }
 
